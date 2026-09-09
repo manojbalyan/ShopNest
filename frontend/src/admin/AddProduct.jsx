@@ -7,8 +7,9 @@ const AddProduct = () => {
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
-    name: '', description: '', price: '', category: '', stock: ''
+    name: '', description: '', price: '', category: '', stock: '', discount: '0'
   });
+  const [customCategory, setCustomCategory] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -21,13 +22,17 @@ const AddProduct = () => {
     e.preventDefault();
     if (!image) return alert('Please select an image');
     
+    const finalCategory = formData.category === 'Other' ? customCategory.trim() : formData.category;
+    if (!finalCategory) return alert('Please select or specify a category');
+
     setLoading(true);
     const data = new FormData();
     data.append('name', formData.name);
     data.append('description', formData.description);
     data.append('price', formData.price);
-    data.append('category', formData.category);
+    data.append('category', finalCategory);
     data.append('stock', formData.stock);
+    data.append('discount', formData.discount || 0);
     data.append('image', image);
 
     try {
@@ -66,15 +71,57 @@ const AddProduct = () => {
           style={inputStyle} 
         />
         <input 
-          type="number" placeholder="Price" required 
+          type="number" placeholder="Selling Price (₹)" required 
           onChange={(e) => setFormData({...formData, price: e.target.value})} 
           style={inputStyle} 
         />
-        <input 
-          type="text" placeholder="Category" required 
-          onChange={(e) => setFormData({...formData, category: e.target.value})} 
-          style={inputStyle} 
-        />
+
+        <div>
+          <label style={{ display: 'block', marginBottom: '6px', color: '#a1a1aa', fontSize: '0.9rem' }}>Discount Offer (%)</label>
+          <select
+            value={formData.discount}
+            onChange={(e) => setFormData({...formData, discount: e.target.value})}
+            style={{ ...inputStyle, width: '100%', cursor: 'pointer' }}
+          >
+            <option value="0">0% (No Discount)</option>
+            <option value="5">5% OFF</option>
+            <option value="10">10% OFF</option>
+            <option value="15">15% OFF</option>
+            <option value="20">20% OFF</option>
+            <option value="25">25% OFF</option>
+            <option value="30">30% OFF</option>
+          </select>
+        </div>
+
+        <div>
+          <label style={{ display: 'block', marginBottom: '6px', color: '#a1a1aa', fontSize: '0.9rem' }}>Product Category</label>
+          <select
+            value={formData.category}
+            onChange={(e) => setFormData({...formData, category: e.target.value})}
+            required
+            style={{ ...inputStyle, width: '100%', cursor: 'pointer' }}
+          >
+            <option value="">-- Choose a Category --</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Footwear">Footwear</option>
+            <option value="Home & Furniture">Home & Furniture</option>
+            <option value="Beauty & Grooming">Beauty & Grooming</option>
+            <option value="Books">Books</option>
+            <option value="Sports & Fitness">Sports & Fitness</option>
+            <option value="Other">Other (Type custom category...)</option>
+          </select>
+        </div>
+
+        {formData.category === 'Other' && (
+          <input 
+            type="text" placeholder="Enter custom category name..." required 
+            value={customCategory}
+            onChange={(e) => setCustomCategory(e.target.value)} 
+            style={inputStyle} 
+          />
+        )}
+
         <input 
           type="number" placeholder="Stock Quantity" required 
           onChange={(e) => setFormData({...formData, stock: e.target.value})} 

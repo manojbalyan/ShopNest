@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useSelector } from 'react-redux';
@@ -8,10 +8,20 @@ const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleLogout = () => {
     logout();
     navigate('/login');
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/shop?search=${encodeURIComponent(searchTerm.trim())}`);
+    } else {
+      navigate('/shop');
+    }
   };
 
   return (
@@ -22,6 +32,20 @@ const Navbar = () => {
           ShopNest
         </Link>
       </div>
+
+      <form onSubmit={handleSearchSubmit} className="navbar-search">
+        <input
+          type="text"
+          placeholder="Search products, brands and more..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="navbar-search-input"
+        />
+        <button type="submit" className="navbar-search-btn" aria-label="Search">
+          🔍
+        </button>
+      </form>
+
       <ul className="navbar-links">
         <li><Link to="/shop">Shop</Link></li>
         <li><Link to="/cart">Cart ({cartItems.length})</Link></li>

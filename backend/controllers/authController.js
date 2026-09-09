@@ -20,19 +20,16 @@ const registerUser = async (req, res) => {
     const user = await User.create({ name, email, password: hashedPassword });
     if (user) {
       
-      // Generate a mock OTP
-      const otp = Math.floor(100000 + Math.random() * 900000);
-      
-      // Send Welcome / OTP Email
+      // Send Welcome Email
       const message = `
         <h2>Welcome to ShopNest, ${name}!</h2>
         <p>Thank you for registering on our platform.</p>
-        <p>Your one-time verification/discount OTP is: <strong>${otp}</strong></p>
+        <p>Your account has been successfully created. Explore our store and enjoy shopping!</p>
       `;
 
       await sendEmail({
         email: user.email,
-        subject: 'Welcome to ShopNest - Your OTP',
+        subject: 'Welcome to ShopNest!',
         message
       });
 

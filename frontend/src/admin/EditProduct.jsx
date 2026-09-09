@@ -2,12 +2,23 @@ import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { useParams, useNavigate } from 'react-router-dom';
 
+const STANDARD_CATEGORIES = [
+  'Electronics',
+  'Clothing',
+  'Footwear',
+  'Home & Furniture',
+  'Beauty & Grooming',
+  'Books',
+  'Sports & Fitness'
+];
+
 const EditProduct = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   
-  const [formData, setFormData] = useState({ name: '', description: '', price: '', category: '', stock: '' });
+  const [formData, setFormData] = useState({ name: '', description: '', price: '', category: '', stock: '', discount: '0' });
+  const [customCategory, setCustomCategory] = useState('');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -15,20 +26,35 @@ const EditProduct = () => {
     const fetchProduct = async () => {
       const res = await fetch(`/api/products/${id}`);
       const data = await res.json();
-      setFormData({ name: data.name, description: data.description, price: data.price, category: data.category, stock: data.stock });
+      const isStandard = STANDARD_CATEGORIES.includes(data.category);
+      setFormData({
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        category: isStandard ? data.category : (data.category ? 'Other' : ''),
+        stock: data.stock,
+        discount: data.discount !== undefined ? String(data.discount) : '0'
+      });
+      if (!isStandard && data.category) {
+        setCustomCategory(data.category);
+      }
     };
     fetchProduct();
   }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const finalCategory = formData.category === 'Other' ? customCategory.trim() : formData.category;
+    if (!finalCategory) return alert('Please select or specify a category');
+
     setLoading(true);
     const data = new FormData();
     data.append('name', formData.name);
     data.append('description', formData.description);
     data.append('price', formData.price);
-    data.append('category', formData.category);
+    data.append('category', finalCategory);
     data.append('stock', formData.stock);
+    data.append('discount', formData.discount || 0);
     if (image) data.append('image', image);
 
     const res = await fetch(`/api/products/${id}`, {
@@ -49,8 +75,52 @@ const EditProduct = () => {
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         <input type="text" placeholder="Product Name" required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} style={inputStyle} />
         <textarea placeholder="Description" required rows="4" value={formData.description} onChange={(e) => setFormData({...formData, description: e.target.value})} style={inputStyle} />
-        <input type="number" placeholder="Price" required value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} style={inputStyle} />
-        <input type="text" placeholder="Category" required value={formData.category} onChange={(e) => setFormData({...formData, category: e.target.value})} style={inputStyle} />
+        <input type="number" placeholder="Price (₹)" required value={formData.price} onChange={(e) => setFormData({...formData, price: e.target.value})} style={inputStyle} />
+        
+        <div>
+          <label style={{ display: 'block', marginBottom: '6px', color: '#a1a1aa', fontSize: '0.9rem' }}>Discount Offer (%)</label>
+          <select
+            value={formData.discount}
+            onChange={(e) => setFormData({...formData, discount: e.target.value})}
+            style={{ ...inputStyle, width: '100%', cursor: 'pointer' }}
+          >
+            <option value="0">0% (No Discount)</option>
+            <option value="5">5% OFF</option>
+            <option value="10">10% OFF</option>
+            <option value="15">15% OFF</option>
+            <option value="20">20% OFF</option>
+            <option value="25">25% OFF</option>
+            <option value="30">30% OFF</option>
+          </select>
+        </div>
+        
+        <div>
+          <label style={{ display: 'block', marginBottom: '6px', color: '#a1a1aa', fontSize: '0.9rem' }}>Product Category</label>
+          <select
+            value={formData.category}
+            onChange={(e) => setFormData({...formData, category: e.target.value})}
+            required
+            style={{ ...inputStyle, width: '100%', cursor: 'pointer' }}
+          >
+            <option value="">-- Choose a Category --</option>
+            {STANDARD_CATEGORIES.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+            <option value="Other">Other (Custom category)</option>
+          </select>
+        </div>
+
+        {formData.category === 'Other' && (
+          <input
+            type="text"
+            placeholder="Type custom category name..."
+            required
+            value={customCategory}
+            onChange={(e) => setCustomCategory(e.target.value)}
+            style={inputStyle}
+          />
+        )}
+
         <input type="number" placeholder="Stock" required value={formData.stock} onChange={(e) => setFormData({...formData, stock: e.target.value})} style={inputStyle} />
         <div style={{ padding: '15px', border: '1px dashed #f97316', borderRadius: '8px' }}>
           <label style={{ display: 'block', marginBottom: '10px', color: '#a1a1aa' }}>Replace Image (Optional)</label>

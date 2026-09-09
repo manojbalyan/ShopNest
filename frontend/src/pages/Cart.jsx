@@ -15,7 +15,7 @@ const Cart = () => {
 
   const handleUpdateQty = (item, qty) => {
     if (qty > 0) {
-      dispatch(addToCart({ ...item, qty }));
+      dispatch(addToCart({ ...item, qty, exactQty: true }));
     }
   };
 

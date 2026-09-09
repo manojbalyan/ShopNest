@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true },
   stock: { type: Number, required: true },
   imageUrl: { type: String, required: true },
+  discount: { type: Number, default: 0 }, // Discount percentage (0, 5, 10, 15, 20, 25, 30)
   ratings: { type: Number, default: 0 },
   numReviews: { type: Number, default: 0 }
 }, { timestamps: true });

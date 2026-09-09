@@ -12,8 +12,9 @@ const cartSlice = createSlice({
       const item = action.payload;
       const existItem = state.cartItems.find((x) => x.productId === item.productId);
       if (existItem) {
+        const newQty = item.exactQty ? item.qty : existItem.qty + item.qty;
         state.cartItems = state.cartItems.map((x) =>
-          x.productId === existItem.productId ? item : x
+          x.productId === existItem.productId ? { ...item, qty: newQty } : x
         );
       } else {
         state.cartItems.push(item);
