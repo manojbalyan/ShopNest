@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const About = () => {
   const containerStyle = {
     maxWidth: '900px',
     margin: '0 auto',
-    padding: '40px',
+    padding: '40px 24px',
     background: '#18181b',
     borderRadius: '16px',
     border: '1px solid rgba(255, 255, 255, 0.05)',
@@ -12,41 +13,98 @@ const About = () => {
     textAlign: 'center'
   };
 
-  const socialBtnStyle = {
-    display: 'inline-block',
-    margin: '10px',
-    padding: '10px 20px',
+  const featureCardStyle = {
     background: '#27272a',
-    color: '#fff',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    transition: 'all 0.3s ease',
-    border: '1px solid rgba(255, 255, 255, 0.1)'
+    padding: '24px 20px',
+    borderRadius: '12px',
+    border: '1px solid rgba(255, 255, 255, 0.05)',
+    textAlign: 'left',
+    flex: '1 1 calc(50% - 20px)',
+    minWidth: '260px'
   };
 
   return (
     <div style={containerStyle}>
       <img
-        src="/dp.jpg"
-        alt="@theshivanshvasu"
-        style={{ width: '180px', height: '180px', borderRadius: '50%', objectFit: 'cover', border: '4px solid #f97316', marginBottom: '20px', boxShadow: '0 4px 20px rgba(249, 115, 22, 0.4)' }}
+        src="/ShopNestLogo.png"
+        alt="ShopNest Logo"
+        style={{ width: '80px', height: '80px', objectFit: 'contain', marginBottom: '16px' }}
       />
-      <h2 style={{ fontSize: '2.5rem', marginBottom: '10px', color: '#fff' }}>About Me</h2>
-      <h3 style={{ fontSize: '1.5rem', color: '#f97316', marginBottom: '15px' }}>Shivansh Vasu (@theshivanshvasu)</h3>
-
-      <p style={{ color: '#a1a1aa', fontSize: '1.2rem', lineHeight: '1.8', maxWidth: '600px', margin: '0 auto 30px auto' }}>
-        <strong>Join the community and grow together!</strong> Welcome to my platform where we build, deploy, and scale highly engineered systems.
+      <h2 style={{ fontSize: '2.5rem', marginBottom: '8px', color: '#fff', fontWeight: '700' }}>
+        About ShopNest
+      </h2>
+      <p style={{ color: '#f97316', fontSize: '1.1rem', fontWeight: '500', marginBottom: '24px' }}>
+        Your Modern Destination for Curated Quality &amp; Seamless Shopping
       </p>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px', marginTop: '20px' }}>
-        <a href="https://theshivanshvasu.com" target="_blank" rel="noreferrer" style={socialBtnStyle}>🌐 Website</a>
-        <a href="https://youtube.com/@shivanshvasu" target="_blank" rel="noreferrer" style={{ ...socialBtnStyle, background: 'rgba(239, 68, 68, 0.2)', borderColor: '#ef4444', color: '#ef4444' }}>📺 YouTube</a>
-        <a href="https://instagram.com/theshivanshvasuofficial" target="_blank" rel="noreferrer" style={{ ...socialBtnStyle, background: 'rgba(236, 72, 153, 0.2)', borderColor: '#ec4899', color: '#ec4899' }}>📸 Instagram</a>
-        <a href="https://www.linkedin.com/in/theshivanshvasu" target="_blank" rel="noreferrer" style={{ ...socialBtnStyle, background: 'rgba(59, 130, 246, 0.2)', borderColor: '#3b82f6', color: '#3b82f6' }}>💼 LinkedIn</a>
-        <a href="https://x.com/theshivanshvasu" target="_blank" rel="noreferrer" style={socialBtnStyle}>✖️ X (Twitter)</a>
-        <a href="https://whatsapp.com/channel/0029VbAWGE5ICVfcjjKTAS0B" target="_blank" rel="noreferrer" style={{ ...socialBtnStyle, background: 'rgba(16, 185, 129, 0.2)', borderColor: '#10b981', color: '#10b981' }}>💬 WhatsApp</a>
-        <a href="https://linktr.ee/shivanshvasu" target="_blank" rel="noreferrer" style={socialBtnStyle}>🔗 Linktree</a>
+      <p style={{ color: '#a1a1aa', fontSize: '1.05rem', lineHeight: '1.8', maxWidth: '720px', margin: '0 auto 36px auto' }}>
+        Welcome to <strong>ShopNest</strong> — an e-commerce platform built to make online shopping smooth, dependable, and enjoyable.
+        From lifestyle essentials to curated goods, we bring together carefully selected products, transparent pricing, and lightning-fast checkout.
+      </p>
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', justifyContent: 'center', marginBottom: '40px' }}>
+        <div style={featureCardStyle}>
+          <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>✨</div>
+          <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '6px' }}>Curated Collection</h4>
+          <p style={{ color: '#a1a1aa', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
+            Every product is handpicked to ensure high quality, reliability, and value for your everyday needs.
+          </p>
+        </div>
+
+        <div style={featureCardStyle}>
+          <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>⚡</div>
+          <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '6px' }}>Fast &amp; Reliable</h4>
+          <p style={{ color: '#a1a1aa', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
+            Swift order processing and seamless tracking so your favorite items reach your doorstep on time.
+          </p>
+        </div>
+
+        <div style={featureCardStyle}>
+          <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>🔒</div>
+          <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '6px' }}>Secure Payments</h4>
+          <p style={{ color: '#a1a1aa', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
+            Industry-standard encryption and trusted payment gateways ensure your transactions are always safe.
+          </p>
+        </div>
+
+        <div style={featureCardStyle}>
+          <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>💬</div>
+          <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '6px' }}>Customer First</h4>
+          <p style={{ color: '#a1a1aa', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
+            Dedicated support team ready to assist you with inquiries, orders, and after-sales satisfaction.
+          </p>
+        </div>
       </div>
+
+      <div style={{
+        padding: '24px',
+        background: 'rgba(249, 115, 22, 0.05)',
+        borderRadius: '12px',
+        border: '1px solid rgba(249, 115, 22, 0.15)',
+        marginBottom: '32px'
+      }}>
+        <h4 style={{ color: '#fff', fontSize: '1.1rem', marginBottom: '6px' }}>Built with Care</h4>
+        <p style={{ color: '#a1a1aa', fontSize: '0.95rem', margin: 0, lineHeight: '1.6' }}>
+          ShopNest is founded and maintained by <strong>Manoj Balyan</strong>, focusing on delivering clean design, rock-solid engineering, and a delightful shopping journey.
+        </p>
+      </div>
+
+      <Link
+        to="/shop"
+        style={{
+          display: 'inline-block',
+          padding: '12px 32px',
+          background: '#f97316',
+          color: '#fff',
+          fontWeight: '600',
+          borderRadius: '8px',
+          textDecoration: 'none',
+          transition: 'background 0.2s ease',
+          fontSize: '1rem'
+        }}
+      >
+        Explore Products →
+      </Link>
     </div>
   );
 };

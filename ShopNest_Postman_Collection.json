@@ -33,7 +33,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\":\"Shivansh\",\r\n    \"email\": \"user@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}",
+              "raw": "{\r\n    \"name\":\"Manoj Balyan\",\r\n    \"email\": \"user@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -148,7 +148,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\":\"Shivansh\",\r\n    \"email\": \"user@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}"
+              "raw": "{\r\n    \"name\":\"Manoj Balyan\",\r\n    \"email\": \"user@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}"
             },
             "url": {
               "raw": "{{endpoint}}/api/products/",
@@ -184,7 +184,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\":\"Shivansh\",\r\n    \"email\": \"user@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}"
+              "raw": "{\r\n    \"name\":\"Manoj Balyan\",\r\n    \"email\": \"user@gmail.com\",\r\n    \"password\": \"pass123\"\r\n}"
             },
             "url": {
               "raw": "{{endpoint}}/api/products/69e88d27e51103fdd44cb50c",
