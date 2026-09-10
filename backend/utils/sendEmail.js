@@ -2,6 +2,11 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async ({ email, subject, message }) => {
   try {
+    if (!process.env.GMAIL_USER || !process.env.GMAIL_PASS) {
+      console.warn('⚠️ GMAIL_USER or GMAIL_PASS environment variables are not configured in Render. Skipping email send.');
+      return;
+    }
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
