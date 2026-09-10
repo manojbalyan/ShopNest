@@ -27,11 +27,12 @@ const registerUser = async (req, res) => {
         <p>Your account has been successfully created. Explore our store and enjoy shopping!</p>
       `;
 
-      await sendEmail({
+      // Send Welcome Email in background without blocking registration response
+      sendEmail({
         email: user.email,
         subject: 'Welcome to ShopNest!',
         message
-      });
+      }).catch((err) => console.error(`Email sending failed: ${err.message}`));
 
       res.status(201).json({
         _id: user._id,
