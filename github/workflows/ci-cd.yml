@@ -1,0 +1,60 @@
+name: ShopNest CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  # ==========================================
+  # 1. CI (Continuous Integration): Build & Test
+  # ==========================================
+  build-and-test:
+    name: Build & Verify Code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 2. Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: 3. Verify Backend Dependencies
+        run: |
+          cd backend
+          npm install
+          npm test
+
+      - name: 4. Verify Frontend Build
+        run: |
+          cd frontend
+          npm install
+          # CI=false prevents warnings from failing the build
+          CI=false npm run build
+
+  # ==========================================
+  # 2. CD (Continuous Deployment): Deploy to Render
+  # ==========================================
+  deploy:
+    name: Trigger Render Deployment
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+
+    steps:
+      - name: Deploy to Render via Webhook
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$RENDER_DEPLOY_HOOK" ]; then
+            echo "⚠️ RENDER_DEPLOY_HOOK_URL secret is not set in GitHub repository settings."
+            echo "Skipping Render deployment step. (Add RENDER_DEPLOY_HOOK_URL under Repo Settings > Secrets to enable auto-deploy)"
+          else
+            echo "🚀 Triggering Render Deployment..."
+            curl -f -X POST "$RENDER_DEPLOY_HOOK"
+            echo "✅ Render deployment successfully triggered!"
+          fi
