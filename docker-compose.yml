@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # Node.js Backend Service
+  backend:
+    build: ./backend
+    container_name: shopnest-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - MONGO_URI=mongodb://mongo:27017/shopnest
+      - JWT_SECRET=shopnest_secret_key_123
+      - NODE_ENV=development
+    depends_on:
+      - mongo
+    restart: always
+
+  # MongoDB Database Service
+  mongo:
+    image: mongo:latest
+    container_name: shopnest-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+
+volumes:
+  mongo-data:
